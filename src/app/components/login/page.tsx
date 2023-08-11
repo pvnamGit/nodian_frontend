@@ -5,20 +5,12 @@ import { GoogleLogin, useGoogleLogin } from 'react-google-login';
 import { gapi } from 'gapi-script';
 import { useLoginByGoogleMutation } from '@/app/redux-toolkit/features/authSlice';
 
-const clientGoogleId: string = process.env.GOOGLE_CLIENT_ID as string;
+const clientGoogleId: string = process.env.NEXT_PUBLIC_GOOGLE_CLIENT_ID as string;
 
 function Login() {
   const [login] = useLoginByGoogleMutation();
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const handleLoginByGoogle = async (res: any) => {
-    gapi.load('client:auth2', () => {
-      gapi.client.init({
-        clientId:
-          '3361011448-pbsigdqtbgoquioujt2ac42outm3igr6.apps.googleusercontent.com',
-        plugin_name: 'chat',
-      });
-    });
-
     const { tokenId } = res;
     try {
       await login(tokenId)
@@ -65,10 +57,9 @@ function Login() {
         Nodian
       </Typography>
       <GoogleLogin
-        clientId="93361011448-pbsigdqtbgoquioujt2ac42outm3igr6.apps.googleusercontent.com"
+        clientId={clientGoogleId}
         onSuccess={handleLoginByGoogle}
         onFailure={onFailure}
-        isSignedIn
         buttonText="Login with Google"
         cookiePolicy="single_host_origin"
       />

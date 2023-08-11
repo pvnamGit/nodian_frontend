@@ -17,10 +17,7 @@ module.exports = {
   rules: {
     // Include your custom rules here
     'react/react-in-jsx-scope': 'off', // No need to import React with JSX Transform introduced in React 17
-    'react/jsx-filename-extension': [
-      'error',
-      { extensions: ['.js', '.jsx', '.ts', '.tsx'] },
-    ], // Allow JSX syntax in .js, .jsx, .ts, .tsx files
+    'react/jsx-filename-extension': ['error', { extensions: ['.js', '.jsx', '.ts', '.tsx'] }], // Allow JSX syntax in .js, .jsx, .ts, .tsx files
     'no-use-before-define': 'off',
     semi: [1, 'always'],
 

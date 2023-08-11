@@ -3,15 +3,9 @@
 import { Box, Typography } from '@mui/material';
 import { useEffect } from 'react';
 import { useGetCurrentUserInfoQuery } from '@/app/redux-toolkit/features/userSlices';
+import Login from '../login/page';
 
-function Home() {
-  const { data: currentUser, isLoading } = useGetCurrentUserInfoQuery();
-  useEffect(() => {
-    if (!isLoading) {
-      console.log('🚀 ~ file: page.tsx:9 ~ Home ~ currentUser:', currentUser);
-    }
-  });
-
+function Home({ isLoggedIn }: { isLoggedIn: boolean }) {
   return (
     <Box
       sx={{
@@ -23,14 +17,18 @@ function Home() {
         alignItems: 'center',
       }}
     >
-      <Typography
-        variant="h2"
-        sx={{
-          marginBottom: 4,
-        }}
-      >
-        Nodian Logged in
-      </Typography>
+      {isLoggedIn ? (
+        <Typography
+          variant="h2"
+          sx={{
+            marginBottom: 4,
+          }}
+        >
+          Nodian Logged in
+        </Typography>
+      ) : (
+        <Login />
+      )}
     </Box>
   );
 }

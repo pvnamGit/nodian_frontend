@@ -2,32 +2,47 @@
 
 import { Box, Button, Typography } from '@mui/material';
 import { GoogleLogin, useGoogleLogin } from 'react-google-login';
-import { gapi } from 'gapi-script';
+import { useEffect } from 'react';
+import { toast } from 'react-toastify';
 import { useLoginByGoogleMutation } from '@/app/redux-toolkit/features/authSlice';
 
-const clientGoogleId: string = process.env.NEXT_PUBLIC_GOOGLE_CLIENT_ID as string;
+const GOOGLE_CLIENT_ID: string = process.env.NEXT_PUBLIC_GOOGLE_CLIENT_ID as string;
+
+const GAPI_CONFIG = {
+  clientId: GOOGLE_CLIENT_ID,
+  scope: 'email',
+};
 
 function Login() {
-  const [login] = useLoginByGoogleMutation();
+  useEffect(() => {
+    const start = async () => {
+      const gapi = (await import('gapi-script')).default;
+      if (gapi) {
+        gapi.client.init(GAPI_CONFIG);
+        gapi.load('client:auth2', start);
+      }
+    };
+    start();
+  }, []);
+
+  const [loginByGoogle] = useLoginByGoogleMutation();
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const handleLoginByGoogle = async (res: any) => {
     const { tokenId } = res;
     try {
-      await login(tokenId)
+      await loginByGoogle(tokenId)
         .unwrap()
         .then(result => {
           const { data } = result;
           const { jwt } = data;
           if (data && jwt) {
             localStorage.setItem('token', 'Bearer '.concat(jwt));
+            toast.success('Login Successfully', {
+              position: toast.POSITION.BOTTOM_RIGHT,
+            });
           }
-          window.location.reload();
+          setTimeout(() => window.location.reload(), 500);
         });
-      // console.log('🚀 ~ file: page.tsx:27 ~ handleLoginByGoogle ~ data:', data);
-      // if (data && data.user && data.token) {
-      //   localStorage.setItem('token', JSON.stringify(data.jwt));
-      // }
-      // handle successful login
     } catch (err: any) {
       console.log(err.message);
     }
@@ -57,7 +72,7 @@ function Login() {
         Nodian
       </Typography>
       <GoogleLogin
-        clientId={clientGoogleId}
+        clientId={GOOGLE_CLIENT_ID}
         onSuccess={handleLoginByGoogle}
         onFailure={onFailure}
         buttonText="Login with Google"

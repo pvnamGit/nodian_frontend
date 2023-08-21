@@ -18,6 +18,7 @@ import MailIcon from '@mui/icons-material/Mail';
 import NotificationsIcon from '@mui/icons-material/Notifications';
 import MoreIcon from '@mui/icons-material/MoreVert';
 import { Button } from '@mui/material';
+import { toast } from 'react-toastify';
 import NodianLogo from '../logo/page';
 
 const Search = styled('div')(({ theme }) => ({
@@ -76,7 +77,10 @@ export default function PrimarySearchAppBar() {
 
   const handleLogout = () => {
     localStorage.removeItem('token');
-    window.location.reload();
+    toast.success('Logout Successfully', {
+      position: toast.POSITION.BOTTOM_RIGHT,
+    });
+    setTimeout(() => window.location.reload(), 500);
   };
 
   const handleMenuClose = () => {

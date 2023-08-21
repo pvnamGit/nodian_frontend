@@ -1,5 +1,5 @@
-import { Box, Tabs } from '@mui/material';
-import NoteTab from '../tabs/NoteTab';
+import { Box, IconButton, Tab, Tabs } from '@mui/material';
+import CloseIcon from '@mui/icons-material/Close';
 
 const mockTabsData = [
   { id: '1', tabName: 'Tab 1' },
@@ -19,7 +19,38 @@ function TabsSection() {
     >
       <Tabs>
         {mockTabsData.map(tab => (
-          <NoteTab key={tab.id} tabId={tab.id} tabName={tab.tabName} onCloseTab={handleCloseTab} />
+          <Tab
+            key={tab.id}
+            sx={{
+              marginRight: 0.25,
+              color: 'white',
+            }}
+            label={
+              <span>
+                {tab.tabName}
+                <IconButton
+                  size="small"
+                  component="span"
+                  sx={{
+                    height: '20px',
+                  }}
+                  onClick={() => {
+                    handleCloseTab(tab.id);
+                  }}
+                >
+                  <CloseIcon
+                    sx={{
+                      color: '#1e1e1e',
+                      '&:hover': {
+                        color: 'white',
+                      },
+                    }}
+                    fontSize="small"
+                  />
+                </IconButton>
+              </span>
+            }
+          />
         ))}
       </Tabs>
     </Box>

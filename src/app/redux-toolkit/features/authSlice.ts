@@ -6,7 +6,7 @@ const AUTH_REDUCER_PATH = 'auth';
 export const authSliceApi = createApi({
   reducerPath: AUTH_REDUCER_PATH,
   baseQuery: fetchBaseQuery({
-    baseUrl: 'http://localhost:8080/api',
+    baseUrl: process.env.NEXT_PUBLIC_API_BASE_URL,
   }),
   endpoints: builder => ({
     loginByGoogle: builder.mutation({

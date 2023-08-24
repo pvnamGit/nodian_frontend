@@ -1,34 +1,16 @@
 'use client';
 
 import { Box, Button, Typography } from '@mui/material';
-import { GoogleLogin, useGoogleLogin } from 'react-google-login';
-import { useEffect } from 'react';
+import { GoogleLogin } from '@react-oauth/google';
 import { toast } from 'react-toastify';
 import { useLoginByGoogleMutation } from '@/app/redux-toolkit/features/authSlice';
 
-const GOOGLE_CLIENT_ID: string = process.env.NEXT_PUBLIC_GOOGLE_CLIENT_ID as string;
-
-const GAPI_CONFIG = {
-  clientId: GOOGLE_CLIENT_ID,
-  scope: 'email',
-};
-
 function Login() {
-  useEffect(() => {
-    const start = async () => {
-      const gapi = (await import('gapi-script')).default;
-      if (gapi) {
-        gapi.client.init(GAPI_CONFIG);
-        gapi.load('client:auth2', start);
-      }
-    };
-    start();
-  }, []);
-
   const [loginByGoogle] = useLoginByGoogleMutation();
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
+
   const handleLoginByGoogle = async (res: any) => {
-    const { tokenId } = res;
+    const { credential: tokenId } = res;
     try {
       await loginByGoogle(tokenId)
         .unwrap()
@@ -48,8 +30,8 @@ function Login() {
     }
   };
 
-  const onFailure = (res: any) => {
-    console.log('Login failed: res:', res);
+  const onFailure = () => {
+    console.log('Login failed: res:');
   };
 
   return (
@@ -71,13 +53,7 @@ function Login() {
       >
         Nodian
       </Typography>
-      <GoogleLogin
-        clientId={GOOGLE_CLIENT_ID}
-        onSuccess={handleLoginByGoogle}
-        onFailure={onFailure}
-        buttonText="Login with Google"
-        cookiePolicy="single_host_origin"
-      />
+      <GoogleLogin onSuccess={credentialResponse => handleLoginByGoogle(credentialResponse)} onError={onFailure} />
     </Box>
   );
 }

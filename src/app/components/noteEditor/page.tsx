@@ -7,7 +7,6 @@ function NoteEditor() {
       sx={{
         height: '100%',
         backgroundColor: '#1e1e1e',
-        borderRight: '0.5px solid white',
       }}
     >
       <Box>

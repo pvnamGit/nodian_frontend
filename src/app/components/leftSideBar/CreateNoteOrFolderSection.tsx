@@ -8,7 +8,6 @@ function CreateNoteOrFolderSection() {
   return (
     <Box
       sx={{
-        borderBottom: '0.5px solid white',
         height: '48px',
       }}
     >

@@ -73,6 +73,7 @@ module.exports = {
         tsx: 'never',
       },
     ],
+    'no-param-reassign': 'off',
 
     // REACT
     'react/jsx-uses-react': 'off',
@@ -86,6 +87,8 @@ module.exports = {
       },
     ],
     'react-hooks/exhaustive-deps': 0,
+    'react/require-default-props': 'off',
+    'react/jsx-props-no-spreading': 'off',
 
     // Prettier
     // eslint looks for the prettier config at the top level of the package/app

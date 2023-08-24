@@ -1,5 +1,6 @@
 import { Box, IconButton, Tab, Tabs } from '@mui/material';
 import CloseIcon from '@mui/icons-material/Close';
+import React, { useState } from 'react';
 
 const mockTabsData = [
   { id: '1', tabName: 'Tab 1' },
@@ -8,16 +9,23 @@ const mockTabsData = [
 ];
 
 function TabsSection() {
+  const [tabValue, setTabValue] = useState(0);
+
   const handleCloseTab = (keyTab: string) => {
     console.log('Closed: ', keyTab);
   };
+
+  const handleChange = (event: React.SyntheticEvent, newValue: number) => {
+    setTabValue(newValue);
+  };
+
   return (
     <Box
       sx={{
         borderBottom: '0.5px solid white',
       }}
     >
-      <Tabs>
+      <Tabs value={tabValue} onChange={handleChange}>
         {mockTabsData.map(tab => (
           <Tab
             key={tab.id}

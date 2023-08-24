@@ -4,30 +4,41 @@ const theme = responsiveFontSizes(
   createTheme({
     spacing: 4,
     typography: {
-      fontFamily: ['Roboto', 'Raleway', 'Open Sans'].join(','),
+      fontFamily: [
+        '-apple-system',
+        'BlinkMacSystemFont',
+        '"Segoe UI"',
+        'Roboto',
+        '"Helvetica Neue"',
+        'Arial',
+        'sans-serif',
+        '"Apple Color Emoji"',
+        '"Segoe UI Emoji"',
+        '"Segoe UI Symbol"',
+      ].join(','),
       h1: {
-        fontSize: '5rem',
+        fontSize: '4rem',
         fontFamily: 'Raleway',
       },
       h2: {
-        fontSize: '3.5rem',
-        fontFamily: 'Open Sans',
+        fontSize: '3rem',
+        fontFamily: 'Raleway',
         fontStyle: 'bold',
       },
       h3: {
-        fontSize: '2.5rem',
+        fontSize: '2rem',
         fontFamily: 'Roboto',
       },
     },
     palette: {
       background: {
-        default: '#009900', // green
+        default: '#1e1e1e', // green
       },
       primary: {
-        main: '#2B37D4', // indigo
+        main: '#9c3dc1', // purple
       },
       secondary: {
-        main: '#E769A6', // pink
+        main: '#dadada', // white
       },
       error: {
         main: '#D72A2A', // red

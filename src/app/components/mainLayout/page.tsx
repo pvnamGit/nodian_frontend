@@ -51,7 +51,7 @@ function MainLayout() {
       const currentRepo = repos.find((repo: Repository) => repo.name === localStorage.getItem('currentRepo'));
       setCurrentRepo(currentRepo);
     }
-  }, [isLoading]);
+  }, [isLoading, data]);
 
   if (isLoading) {
     return <p>Loading repositories...</p>;

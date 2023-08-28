@@ -13,7 +13,7 @@ function ConfirmDeleteModal({ open, handleClose, handleConfirm }: { open: boolea
       </Button>
     </Box>
   );
-  const renderBody = null;
+  const renderBody = <Typography sx={{ color: 'white', padding: 'auto', margin: 'auto' }}>Are you sure you want to delete this repository?</Typography>;
   return (
     <BaseModal
       props={{

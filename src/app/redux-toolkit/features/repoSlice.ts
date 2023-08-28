@@ -39,12 +39,14 @@ export const repoSliceApi = createApi({
         method: 'PUT',
         body: newName,
       }),
+      invalidatesTags: ['Repo'],
     }),
     deleteRepo: builder.mutation<any, any>({
       query: ({ id }: { id: number }) => ({
         url: `/repo/${id}`,
         method: 'DELETE',
       }),
+      invalidatesTags: ['Repo'],
     }),
   }),
 });

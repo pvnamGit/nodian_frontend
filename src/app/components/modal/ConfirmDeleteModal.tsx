@@ -1,7 +1,17 @@
 import { Box, Button, Typography } from '@mui/material';
 import BaseModal from './BaseModal';
 
-function ConfirmDeleteModal({ open, handleClose, handleConfirm }: { open: boolean; handleClose: () => void; handleConfirm: () => void }) {
+function ConfirmDeleteModal({
+  open,
+  message,
+  handleClose,
+  handleConfirm,
+}: {
+  open: boolean;
+  message?: string;
+  handleClose: () => void;
+  handleConfirm: () => void;
+}) {
   const renderTitle = <Typography variant="h3">Confirm To Delete?</Typography>;
   const renderBottom = (
     <Box sx={{ display: 'flex', marginLeft: 'auto' }}>
@@ -13,7 +23,7 @@ function ConfirmDeleteModal({ open, handleClose, handleConfirm }: { open: boolea
       </Button>
     </Box>
   );
-  const renderBody = <Typography sx={{ color: 'white', padding: 'auto', margin: 'auto' }}>Are you sure you want to delete this repository?</Typography>;
+  const renderBody = <Typography sx={{ color: 'white', margin: 'auto' }}>{message}</Typography>;
   return (
     <BaseModal
       props={{

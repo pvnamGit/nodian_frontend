@@ -1,5 +1,5 @@
 import { atom, selector } from 'recoil';
-import { Repository } from '../types/types';
+import { Path, Repository } from '../types/types';
 
 export const reposByOwnerState = atom<Repository[]>({
   key: 'Repos',
@@ -14,4 +14,9 @@ export const currentRepoState = atom<Repository | null>({
 export const newlyCreatedRepoState = atom<Repository | null>({
   key: 'newlyCreatedRepoState',
   default: null,
+});
+
+export const pathsByOwnerAndRepoState = atom<Path[] | null>({
+  key: 'pathsByOwnerAndRepoState',
+  default: [],
 });

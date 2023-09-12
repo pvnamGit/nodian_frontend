@@ -4,7 +4,7 @@ import { Box, Button, Tooltip } from '@mui/material';
 import NoteAddIcon from '@mui/icons-material/NoteAdd';
 import CreateNewFolderIcon from '@mui/icons-material/CreateNewFolder';
 
-function CreateNoteOrFolderSection() {
+function CreateNoteOrFolderSection({ onCreateFolder, onCreateNote }: { onCreateFolder: () => void; onCreateNote: () => void }) {
   return (
     <Box
       sx={{
@@ -13,10 +13,10 @@ function CreateNoteOrFolderSection() {
     >
       <div style={{ marginLeft: 'auto', width: 'fit-content' }}>
         <Tooltip title="Create a Note">
-          <Button sx={{ marginTop: 1 }} startIcon={<NoteAddIcon sx={{ color: 'white' }} />} />
+          <Button onClick={onCreateNote} sx={{ marginTop: 2 }} startIcon={<NoteAddIcon sx={{ color: 'white' }} />} />
         </Tooltip>
         <Tooltip title="Create a Folder">
-          <Button sx={{ marginTop: 1 }} startIcon={<CreateNewFolderIcon sx={{ color: 'white' }} />} />
+          <Button onClick={onCreateFolder} sx={{ marginTop: 2 }} startIcon={<CreateNewFolderIcon sx={{ color: 'white' }} />} />
         </Tooltip>
       </div>
     </Box>

@@ -1,5 +1,6 @@
+/* eslint-disable jsx-a11y/no-static-element-interactions */
 import { Box, styled } from '@mui/material';
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
 import { isEmpty } from 'lodash';
 import { useRecoilState, useRecoilValue, useSetRecoilState } from 'recoil';
 import { useGetReposByOwnerQuery } from '@/app/redux-toolkit/features/repoSlice';
@@ -9,6 +10,7 @@ import PrimarySearchAppBar from '../header/AppBar';
 import LeftSideBar from '../leftSideBar/page';
 import NoteEditor from '../noteEditor/page';
 import CreateNewRepoModal from '../modal/CreateNewRepoModal';
+import './mainLayout.css';
 
 const Container = styled('div')({
   height: '100vh',
@@ -29,9 +31,40 @@ function MainLayout() {
 
   const [disableLeaveModal, setDisableLeaveModal] = useState(false);
 
+  // Resizeable left size bar
+  const sidebarRef = useRef<HTMLInputElement>(null);
+  const [isResizing, setIsResizing] = useState(false);
+  const [sidebarWidth, setSidebarWidth] = useState(268);
+
+  const startResizing = useCallback((mouseDownEvent: MouseEvent) => {
+    setIsResizing(true);
+  }, []);
+
+  const stopResizing = useCallback(() => {
+    setIsResizing(false);
+  }, []);
+
+  const resize = useCallback(
+    (mouseMoveEvent: MouseEvent) => {
+      if (isResizing && sidebarRef.current) {
+        setSidebarWidth(mouseMoveEvent.clientX - sidebarRef.current.getBoundingClientRect().left);
+      }
+    },
+    [isResizing],
+  );
+
+  useEffect(() => {
+    window.addEventListener('mousemove', resize);
+    window.addEventListener('mouseup', stopResizing);
+    return () => {
+      window.removeEventListener('mousemove', resize);
+      window.removeEventListener('mouseup', stopResizing);
+    };
+  }, [resize, stopResizing]);
+
   const setRepositories = useSetRecoilState(reposByOwnerState);
 
-  const currentRepoName = localStorage.getItem('currentRepo');
+  const currentRepoName = localStorage.getItem('currentRepoName');
   const setCurrentRepo = useSetRecoilState(currentRepoState);
 
   const repos = data && data.data;
@@ -48,7 +81,7 @@ function MainLayout() {
         localStorage.setItem('currentRepoName', repos[0].name);
       }
 
-      const currentRepo = repos.find((repo: Repository) => repo.name === localStorage.getItem('currentRepo'));
+      const currentRepo = repos.find((repo: Repository) => repo.name === localStorage.getItem('currentRepoName'));
       setCurrentRepo(currentRepo);
     }
   }, [isLoading, data]);
@@ -67,9 +100,14 @@ function MainLayout() {
           display: 'flex',
         }}
       >
-        <Box sx={{ flexGrow: 1 }}>
-          <LeftSideBar />
-        </Box>
+        <div ref={sidebarRef} className="app-sidebar" style={{ width: sidebarWidth }}>
+          <div className="app-sidebar-content">
+            <Box sx={{ height: '100%' }}>
+              <LeftSideBar />
+            </Box>
+          </div>
+          <div className="app-sidebar-resizer" onMouseDown={(e: any) => startResizing(e)} />
+        </div>
         <Box sx={{ flexGrow: 5 }}>
           <NoteEditor />
         </Box>

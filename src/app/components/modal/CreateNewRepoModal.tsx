@@ -63,7 +63,7 @@ function CreateNewRepoModal({
   };
 
   const renderModalTitle = (
-    <Typography variant="h3" id="parent-modal-title" sx={{ color: '#dadada', display: 'flex', alignItems: 'center' }}>
+    <Typography variant="h3" id="parent-modal-title" sx={{ color: '#dadada', display: 'flex', alignItems: 'center', paddingLeft: 2 }}>
       CREATE A REPOSITORY
     </Typography>
   );
@@ -78,6 +78,7 @@ function CreateNewRepoModal({
             {...field}
             fullWidth
             required
+            autoComplete="off"
             id="outlined-required"
             placeholder="Repository Name"
             InputProps={{
@@ -100,24 +101,28 @@ function CreateNewRepoModal({
   );
 
   const renderModalBottom = (
-    <Button
-      sx={{
-        marginLeft: 'auto',
-        backgroundColor: 'peru',
-      }}
-      variant="outlined"
-      type="submit"
-      onClick={handleSubmit(onSubmit)}
-    >
-      Create Repository
-    </Button>
+    <div style={{ marginLeft: 'auto' }}>
+      <Button
+        sx={{
+          marginRight: 2,
+        }}
+        color="error"
+        variant="text"
+        onClick={handleClose}
+      >
+        Cancel
+      </Button>
+      <Button variant="text" color="primary" type="submit" onClick={handleSubmit(onSubmit)}>
+        Create
+      </Button>
+    </div>
   );
 
   return (
     <BaseModal
       sx={{
-        width: 800,
-        height: 400,
+        width: 400,
+        height: 200,
       }}
       headerChildren={renderModalTitle}
       bodyChildren={renderModalBody}

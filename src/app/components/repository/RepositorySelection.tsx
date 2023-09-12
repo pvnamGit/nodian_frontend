@@ -3,7 +3,6 @@ import { useRecoilState, useRecoilValue, useSetRecoilState } from 'recoil';
 import { useEffect, useState } from 'react';
 import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
 import DeleteOutlineIcon from '@mui/icons-material/DeleteOutline';
-import { noop } from 'lodash';
 import { toast } from 'react-toastify';
 import { Repository, SuccessfulResponse } from '@/app/types/types';
 import { currentRepoState, newlyCreatedRepoState, reposByOwnerState } from '@/app/recoil/atomState';
@@ -32,7 +31,7 @@ const styles = {
   },
 };
 
-function RepositorySelection() {
+function RepositorySelection({ handleUpdateSelect }: { handleUpdateSelect: (repo: Repository) => void }) {
   const [openRepoModal, setOpenRepoModal] = useState(false);
   const [openDeleteRepoModal, setOpenDeleteRepoModal] = useState(false);
   const [selectedRepoId, setSelectedRepoId] = useState<number>();
@@ -42,7 +41,7 @@ function RepositorySelection() {
 
   const [currentRepoName, setCurrentRepoName] = useState(localStorage.getItem('currentRepoName'));
 
-  const [currentRepo, setCurrentRepo] = useRecoilState(currentRepoState);
+  const currentRepo = useRecoilValue(currentRepoState);
 
   const [deleteRepo] = useDeleteRepoMutation();
 
@@ -66,12 +65,12 @@ function RepositorySelection() {
     setOpenRepoModal(true);
   };
 
-  const handleChange = (event: SelectChangeEvent) => {
+  const handleChange = async (event: SelectChangeEvent) => {
     const newSelectedRepo = repos.find(repo => repo.name === event.target.value);
     if (newSelectedRepo) {
       localStorage.setItem('currentRepoName', event.target.value);
       setCurrentRepoName(newSelectedRepo.name);
-      setCurrentRepo(newSelectedRepo);
+      handleUpdateSelect(newSelectedRepo);
     }
   };
 
@@ -82,7 +81,7 @@ function RepositorySelection() {
         <>
           <Select sx={{ ...styles }} fullWidth onChange={handleChange} value={currentRepoName || ''}>
             {repos.map((item: Repository) => (
-              <MenuItem key={item.id} value={item.name} sx={{ display: 'flex' }}>
+              <MenuItem key={item.id} value={item.name} sx={{ display: 'flex', marginLeft: 1 }}>
                 {item.name}
                 {currentRepoName !== item.name && ( // Check if the current item is selected
                   <Tooltip title="Delete this repository">
@@ -101,10 +100,18 @@ function RepositorySelection() {
                 )}
               </MenuItem>
             ))}
-            <MenuItem onClick={handleCreateNewRepo}>Create new repository</MenuItem>
+            <MenuItem onClick={handleCreateNewRepo}>
+              <AddCircleOutlineIcon sx={{ marginRight: 2 }} />
+              Create new repository
+            </MenuItem>
           </Select>
           <CreateNewRepoModal openModal={openRepoModal} handleClose={() => setOpenRepoModal(false)} />
-          <ConfirmDeleteModal open={openDeleteRepoModal} handleClose={() => setOpenDeleteRepoModal(false)} handleConfirm={handleDeleteRepo} />
+          <ConfirmDeleteModal
+            open={openDeleteRepoModal}
+            message="Are you sure you want to delete this repository?"
+            handleClose={() => setOpenDeleteRepoModal(false)}
+            handleConfirm={handleDeleteRepo}
+          />
         </>
       )}
     </>

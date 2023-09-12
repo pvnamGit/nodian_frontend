@@ -26,3 +26,25 @@ export type ErrorResponse = {
   status: boolean;
   message: null | string;
 };
+
+export type TreeNode = {
+  id: number | string;
+  label: string;
+  isFolder: boolean;
+  isRoot: boolean;
+  relativePath?: string;
+  children?: TreeNode[];
+  isOpen: boolean;
+  isSelected?: boolean;
+};
+
+export type Path = BaseType & {
+  path: string;
+  owner: Account;
+  repo: Repository;
+};
+
+export type Folder = BaseType & {
+  parentId: number;
+  name: string;
+};

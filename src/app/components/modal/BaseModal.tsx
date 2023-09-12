@@ -1,5 +1,5 @@
 /* eslint-disable no-undef */
-import { Box, Modal, ModalProps, SxProps, Typography } from '@mui/material';
+import { Box, Divider, Modal, ModalProps, SxProps, Typography } from '@mui/material';
 import React from 'react';
 
 const style = {
@@ -34,16 +34,15 @@ function BaseModal({
   return (
     <Modal {...props}>
       <Box sx={{ ...style, ...sx }}>
-        <Box sx={{ display: 'flex', color: 'white', borderBottom: '0.25px solid white', height: 80, alignItems: 'center' }} id="modal-header">
+        <Box sx={{ display: 'flex', color: 'white', height: 80, alignItems: 'center' }} id="modal-header">
           {headerChildren}
         </Box>
-        <Box
-          sx={{ display: 'flex', borderBottom: '0.25px solid white', margin: 'auto', height: `calc(${sx.height}px - 180px)`, minHeight: '100px' }}
-          id="modal-body"
-        >
+        <Divider light />
+        <Box sx={{ display: 'flex', margin: 'auto', height: `calc(${sx.height}px - 180px)`, minHeight: '100px' }} id="modal-body">
           {bodyChildren}
         </Box>
-        <Box sx={{ alignItems: 'center', alignContent: 'center', display: 'flex', padding: 3 }} id="moda-bottom">
+        <Divider light />
+        <Box sx={{ alignItems: 'center', alignContent: 'center', display: 'flex', padding: 2 }} id="moda-bottom">
           {bottomChildren}
         </Box>
       </Box>

@@ -1,0 +1,40 @@
+.tree-view {
+  height: auto;
+}
+
+.tree-node {
+    margin-left: 10px; /* Adjust the indentation for nesting */
+    font-size: 18px;
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .row {
+    width: 100%;
+    display: flex;
+  }
+  
+  .folder {
+    cursor: pointer;
+    color: #9c3dc1;
+  }
+
+  .row:hover {
+    background-color: rgb(18, 58, 59);
+  }
+  
+  .file {
+    margin-left: 18px;
+    cursor: pointer;
+    color: #dadada;
+  }
+  
+  .toggle-icon {
+    margin-right: 2px;
+  }
+
+  .node-selected {
+    border-radius: 4px;
+    background-color: rgb(18, 58, 59);
+  }
+  

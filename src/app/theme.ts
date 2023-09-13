@@ -3,33 +3,6 @@ import { createTheme, responsiveFontSizes } from '@mui/material';
 const theme = responsiveFontSizes(
   createTheme({
     spacing: 4,
-    typography: {
-      fontFamily: [
-        '-apple-system',
-        'BlinkMacSystemFont',
-        '"Segoe UI"',
-        'Roboto',
-        '"Helvetica Neue"',
-        'Arial',
-        'sans-serif',
-        '"Apple Color Emoji"',
-        '"Segoe UI Emoji"',
-        '"Segoe UI Symbol"',
-      ].join(','),
-      h1: {
-        fontSize: '4rem',
-        fontFamily: 'Raleway',
-      },
-      h2: {
-        fontSize: '3rem',
-        fontFamily: 'Raleway',
-        fontStyle: 'bold',
-      },
-      h3: {
-        fontSize: '2rem',
-        fontFamily: 'Roboto',
-      },
-    },
     palette: {
       background: {
         default: '#1e1e1e', // green

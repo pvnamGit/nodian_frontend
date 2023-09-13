@@ -63,7 +63,7 @@ function CreateNewRepoModal({
   };
 
   const renderModalTitle = (
-    <Typography variant="h3" id="parent-modal-title" sx={{ color: '#dadada', display: 'flex', alignItems: 'center', paddingLeft: 2 }}>
+    <Typography id="parent-modal-title" sx={{ color: '#dadada', paddingLeft: 2, fontSize: 18 }}>
       CREATE A REPOSITORY
     </Typography>
   );

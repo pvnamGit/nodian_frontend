@@ -108,7 +108,7 @@ function MainLayout() {
           </div>
           <div className="app-sidebar-resizer" onMouseDown={(e: any) => startResizing(e)} />
         </div>
-        <Box sx={{ flexGrow: 5 }}>
+        <Box className="note-section" sx={{ flexGrow: 5 }}>
           <NoteEditor />
         </Box>
         <CreateNewRepoModal openModal={openRepoModal} handleClose={() => setOpenRepoModal(false)} disableLeaveModal={disableLeaveModal} />

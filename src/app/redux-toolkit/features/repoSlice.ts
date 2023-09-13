@@ -25,7 +25,7 @@ export const repoSliceApi = createApi({
       }),
       providesTags: ['Repo'],
     }),
-    createNewRepo: builder.mutation<SuccessfulResponse, any>({
+    createNewRepo: builder.mutation<any, any>({
       query: (name: string) => ({
         url: '/repo',
         method: 'POST',

@@ -4,7 +4,7 @@ import { Box, Button, Container, Paper, TextField, Typography } from '@mui/mater
 import { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useGetCurrentUserInfoQuery } from '@/app/redux-toolkit/features/userSlices';
-import Login from '../login/page';
+import Login from '../login/Login';
 
 function Home() {
   const navigate = useNavigate(); // Initialize useHistory

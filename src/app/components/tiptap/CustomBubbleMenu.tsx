@@ -19,7 +19,7 @@ import FormatUnderlinedIcon from '@mui/icons-material/FormatUnderlined';
 import './bubbleMenu.scss';
 import { useState } from 'react';
 
-function CustomBubbleMenu({ editor }: { editor: Editor }) {
+function CustomBubbleMenu({ editor }: { editor: Editor | any }) {
   const [showFull, setShowFull] = useState(false);
   const [headingValue, setHeadingValue] = useState<number | null>(null);
   const handleSelectHeading = (event: SelectChangeEvent) => {

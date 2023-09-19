@@ -19,7 +19,7 @@ import NotificationsIcon from '@mui/icons-material/Notifications';
 import MoreIcon from '@mui/icons-material/MoreVert';
 import { Button } from '@mui/material';
 import { toast } from 'react-toastify';
-import NodianLogo from '../logo/page';
+import NodianLogo from '../logo/NodianLogo';
 
 const Search = styled('div')(({ theme }) => ({
   position: 'relative',

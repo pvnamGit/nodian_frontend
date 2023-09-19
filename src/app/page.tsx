@@ -9,9 +9,9 @@ import { ToastContainer } from 'react-toastify';
 import { RecoilRoot } from 'recoil';
 import { BrowserRouter, Link, redirect, Route, Routes } from 'react-router-dom';
 import { ApiProvider } from '@reduxjs/toolkit/dist/query/react';
-import Home from './components/home/page';
+import Home from './components/home/Home';
 import store from './redux-toolkit/store';
-import MainLayout from './components/mainLayout/page';
+import MainLayout from './components/mainLayout/MainLayout';
 import 'react-toastify/dist/ReactToastify.css';
 import theme from './theme';
 import { useGetCurrentUserInfoQuery } from './redux-toolkit/features/userSlices';
@@ -46,7 +46,7 @@ export default function App() {
             <BrowserRouter>
               {/* <div className="h-full">{isLogin ? <MainLayout /> : <Home isLoggedIn={isLogin} />}</div> */}
               <Routes>
-                <Route path="/" element={<Home />} />
+                <Route path="" element={<Home />} />
                 <Route path="/d" element={<MainLayout />} />
               </Routes>
             </BrowserRouter>

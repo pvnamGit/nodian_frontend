@@ -9,8 +9,8 @@ import { useGetReposByOwnerQuery } from '@/app/redux-toolkit/features/repoSlice'
 import { currentRepoState, newlyCreatedRepoState, reposByOwnerState } from '@/app/recoil/atomState';
 import { Repository, SuccessfulResponse } from '@/app/types/types';
 import PrimarySearchAppBar from '../header/AppBar';
-import LeftSideBar from '../leftSideBar/page';
-import NoteEditor from '../noteEditor/page';
+import LeftSideBar from '../leftSideBar/LeftSideBar';
+import NoteEditor from '../noteEditor/NoteEditor';
 import CreateNewRepoModal from '../modal/CreateNewRepoModal';
 import './mainLayout.css';
 

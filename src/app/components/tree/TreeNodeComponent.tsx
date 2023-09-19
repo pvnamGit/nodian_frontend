@@ -8,7 +8,7 @@ import { IconButton } from '@mui/material';
 import MoreHorizIcon from '@mui/icons-material/MoreHoriz';
 import { TreeNode } from '@/app/types/types';
 import InputNoteOrFolder from '../leftSideBar/InputNoteOrFolder';
-import './Tree.css';
+import './Tree.scss';
 import ContextMenuSideBar from '../leftSideBar/ContextMenu';
 
 function TreeNodeComponent({

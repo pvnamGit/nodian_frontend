@@ -1,0 +1,25 @@
+.bubble-menu {
+  background-color: #0e0101;
+  border: 1px solid #dcdbdd;
+  box-sizing: border-box;
+  box-shadow: 0px 2px 10px rgba(0, 0, 0, 0.1);
+  border-radius: 6px;
+  display: flex;
+  gap: 4px;
+  width: max-content;
+
+  .selectField {
+    border: 1px solid #dcdbdd;
+    box-shadow: 0px 1px 0px rgba(0, 0, 0, 0.04);
+    border-radius: 6px;
+    font-style: normal;
+    font-weight: 600;
+    font-size: 12px;
+    line-height: 16px;
+    height: 28px;
+    padding: 0 4px;
+  }
+  .is-active {
+    background-color: #ddd2d2;
+  }
+}

@@ -11,7 +11,7 @@ function CreateNoteOrFolderSection({ onCreateFolder, onCreateNote }: { onCreateF
         height: '48px',
       }}
     >
-      <div style={{ marginLeft: 'auto', width: 'fit-content' }}>
+      <div style={{ margin: 'auto', width: 'fit-content' }}>
         <Tooltip title="Create a Note">
           <Button onClick={onCreateNote} sx={{ marginTop: 2 }} startIcon={<NoteAddIcon sx={{ color: 'white' }} />} />
         </Tooltip>

@@ -48,3 +48,9 @@ export type Folder = BaseType & {
   parentId: number;
   name: string;
 };
+
+export type Note = BaseType & {
+  parentId: number;
+  name: string;
+  content: string;
+};

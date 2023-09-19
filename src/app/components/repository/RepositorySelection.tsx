@@ -1,6 +1,6 @@
 import { IconButton, MenuItem, Select, SelectChangeEvent, Tooltip, Typography } from '@mui/material';
 import { useRecoilState, useRecoilValue, useSetRecoilState } from 'recoil';
-import { useEffect, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
 import DeleteOutlineIcon from '@mui/icons-material/DeleteOutline';
 import { toast } from 'react-toastify';
@@ -36,8 +36,14 @@ function RepositorySelection({ handleUpdateSelect }: { handleUpdateSelect: (repo
   const [openDeleteRepoModal, setOpenDeleteRepoModal] = useState(false);
   const [selectedRepoId, setSelectedRepoId] = useState<number>();
 
-  const reposByOwner = useRecoilState(reposByOwnerState);
-  const repos: Repository[] = reposByOwner[0];
+  const reposByOwner = useRecoilValue(reposByOwnerState);
+
+  const repos = useMemo(() => {
+    if (reposByOwner) {
+      return Object.values(reposByOwner);
+    }
+    return [];
+  }, [reposByOwner]);
 
   const [currentRepoName, setCurrentRepoName] = useState(localStorage.getItem('currentRepoName'));
 

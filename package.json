@@ -18,6 +18,8 @@
     "@mui/material": "^5.14.3",
     "@react-oauth/google": "^0.11.1",
     "@reduxjs/toolkit": "^1.9.5",
+    "@tanstack/react-query": "^4.35.3",
+    "@tanstack/react-query-devtools": "^4.35.3",
     "@tiptap/core": "^2.1.8",
     "@tiptap/extension-bubble-menu": "^2.1.8",
     "@tiptap/extension-bullet-list": "^2.1.8",
@@ -74,6 +76,7 @@
     "typescript": "5.1.6"
   },
   "devDependencies": {
+    "@tanstack/eslint-plugin-query": "^4.34.1",
     "@typescript-eslint/eslint-plugin": "^6.2.1",
     "@typescript-eslint/parser": "^6.2.1",
     "eslint": "^8.2.0",

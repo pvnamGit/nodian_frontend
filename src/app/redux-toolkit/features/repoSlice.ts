@@ -1,5 +1,5 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/dist/query/react';
-import { SuccessfulResponse } from '@/app/types/types';
+import { ErrorResponse, SuccessfulResponse } from '@/app/types/types';
 
 const REPO_REDUCER_PATH = 'repo';
 
@@ -18,7 +18,7 @@ export const repoSliceApi = createApi({
   }),
   tagTypes: ['Repo'],
   endpoints: builder => ({
-    getReposByOwner: builder.query<SuccessfulResponse, void>({
+    getReposByOwner: builder.query<SuccessfulResponse | ErrorResponse, void>({
       query: () => ({
         url: '/repos',
         method: 'GET',

@@ -2,17 +2,18 @@
 /* eslint-disable jsx-a11y/no-static-element-interactions */
 import { Box, Button, Divider, Popper, Typography } from '@mui/material';
 import { useEffect, useMemo, useState } from 'react';
-import { useRecoilState, useRecoilValue } from 'recoil';
-import { currentRepoState, pathsByOwnerAndRepoState } from '@/app/recoil/atomState';
+import { useRecoilState, useRecoilValue, useSetRecoilState } from 'recoil';
+import { currentNote, currentRepoState, notesInRepo, pathsByOwnerAndRepoState } from '@/app/recoil/atomState';
 import { useGetPathsQuery } from '@/app/redux-toolkit/features/pathSlice';
 import { buildNode } from '@/app/utils/buildNodeTreeFromPaths';
-import { Repository, TreeNode } from '@/app/types/types';
+import { Note, Repository, TreeNode } from '@/app/types/types';
 import {
   useCreateNewFolderMutation,
   useDeleteFolderMutation,
   useGetFoldersInRepoQuery,
   useUpdateFolderMutation,
 } from '@/app/redux-toolkit/features/folderSlice';
+import { useCreateNewNoteMutation, useDeleteNoteMutation, useGetNoteByIdQuery, useGetNotesInRepoQuery } from '@/app/redux-toolkit/features/noteSlice';
 import CreateNoteOrFolderSection from './CreateNoteOrFolderSection';
 import RepositorySelection from '../repository/RepositorySelection';
 import InputNoteOrFolder from './InputNoteOrFolder';
@@ -26,38 +27,72 @@ type CreateFolderRequest = {
 
 function LeftSideBar() {
   const [isCreating, setIsCreating] = useState(false);
+  const [isCreatingNote, setIsCreatingNote] = useState(false);
   const [resetSelection, setResetSelection] = useState(false);
   const [currentSelectedNode, setCurrentSelectedNode] = useState<TreeNode | null>(null);
 
   const [currentRepo, setCurrentRepo] = useRecoilState(currentRepoState);
+  const setCurrentNote = useSetRecoilState(currentNote);
 
-  const [deleteFolder] = useDeleteFolderMutation();
+  // Folder slice
+  const [createFolder] = useCreateNewFolderMutation();
   const [editFolder] = useUpdateFolderMutation();
+  const [deleteFolder] = useDeleteFolderMutation();
+  // Note slice
+  const [createNewNote] = useCreateNewNoteMutation();
+  const [editNote] = useUpdateFolderMutation();
+  const [deleteNote] = useDeleteNoteMutation();
 
   const {
-    data: response,
-    isLoading,
-    refetch,
+    data: responseFolder,
+    isLoading: isLoadingFolder,
+    refetch: refetchFolder,
   } = useGetFoldersInRepoQuery(currentRepo?.id, {
     skip: currentRepo === null,
   });
 
-  const treeNode = useMemo(() => {
-    if (!isLoading && response && response.status) {
-      const { data } = response;
-      const generatedNode = buildNode({ data });
-      return generatedNode;
-    }
-    return [];
-  }, [response]);
+  const {
+    data: responseNote,
+    isLoading: isLoadingNotes,
+    refetch: refetchNotes,
+  } = useGetNotesInRepoQuery(currentRepo?.id, {
+    skip: currentRepo === null,
+  });
 
-  const [createFolder] = useCreateNewFolderMutation();
+  // const { isLoading: loadingNote, data: noteData } = useGetNoteByIdQuery(
+  //   { noteId: currentSelectedNode ? parseInt((currentSelectedNode?.id as string).slice(0, -1), 10) : null, repoId: currentRepo?.id },
+  //   {
+  //     skip: currentSelectedNode === null || currentSelectedNode.isFolder,
+  //   },
+  // );
 
   useEffect(() => {
     if (currentRepo) {
-      refetch();
+      refetchFolder();
     }
   }, [currentRepo]);
+
+  const treeNode = useMemo(() => {
+    if (!isLoadingFolder && responseFolder && responseFolder.status && !isLoadingNotes && responseNote && responseNote.status) {
+      const { data: folders } = responseFolder;
+      const { data: notes } = responseNote;
+      const generatedNode = buildNode({ folders, notes });
+      return generatedNode;
+    }
+    return [];
+  }, [responseFolder, responseNote]);
+
+  const [notesInCurrentRepo, setNotesInCurrentRepo] = useRecoilState(notesInRepo);
+  useEffect(() => {
+    if (!isLoadingNotes && responseNote) {
+      const { data } = responseNote;
+      const notesMap: { [key: number]: Note } = {};
+      data.forEach((item: Note) => {
+        notesMap[item.id] = item;
+      });
+      setNotesInCurrentRepo(notesMap);
+    }
+  }, [responseNote]);
 
   const handleCreate = async (input: any) => {
     let bodyRequest: CreateFolderRequest = {
@@ -65,14 +100,17 @@ function LeftSideBar() {
       name: input.name,
     };
     let parentId: number | null = null;
+
     if (currentSelectedNode) {
       parentId = parseInt((currentSelectedNode.id as string).slice(0, -1), 10);
     }
+
     if (parentId) {
       bodyRequest = { ...bodyRequest, parentFolderId: parentId };
     }
-    await createFolder(bodyRequest);
+    isCreatingNote ? await createNewNote(bodyRequest) : await createFolder(bodyRequest);
     setIsCreating(false);
+    setIsCreatingNote(false);
   };
 
   const handleUpdateSelectRepo = (repo: Repository) => {
@@ -81,22 +119,29 @@ function LeftSideBar() {
   };
 
   const handleEditNode = async (node: TreeNode, input: any) => {
-    const folderId = (node.id as string).slice(0, -1);
+    const id = (node.id as string).slice(0, -1);
     const bodyRequest = {
       repoId: currentRepo?.id,
       name: input.name,
     };
-    await editFolder({ folderId, bodyRequest });
+    node.isFolder ? await editFolder({ folderId: id, bodyRequest }) : await editNote({ noteId: id, bodyRequest });
   };
 
   const handleDeleteNode = async (node: TreeNode) => {
-    const params = node.isFolder
-      ? {
-          folderId: (node.id as string).slice(0, -1),
-        }
-      : null;
+    const id = (node.id as string).slice(0, -1);
+    node.isFolder ? await deleteFolder({ folderId: id }) : await deleteNote({ noteId: id });
+  };
 
-    await deleteFolder(params);
+  const handleSelectNode = (node: TreeNode) => {
+    if (node) {
+      setResetSelection(false);
+      setCurrentSelectedNode(node);
+      if (!node.isFolder && notesInCurrentRepo) {
+        const noteId = parseInt((node.id as string).slice(0, -1), 10);
+        setCurrentNote(notesInCurrentRepo[noteId]);
+        localStorage.setItem('currentNoteId', noteId.toString());
+      }
+    }
   };
 
   return (
@@ -109,9 +154,14 @@ function LeftSideBar() {
       }}
     >
       <Box id="create-section">
-        <CreateNoteOrFolderSection onCreateFolder={() => setIsCreating(true)} onCreateNote={() => setIsCreating(true)} />
+        <CreateNoteOrFolderSection
+          onCreateFolder={() => setIsCreating(true)}
+          onCreateNote={() => {
+            setIsCreatingNote(true);
+            setIsCreating(true);
+          }}
+        />
       </Box>
-      <Divider color="white" />
       <Box sx={{ width: '100%', height: '100%', display: 'flex', flexDirection: 'column' }} id="folder-note-section">
         <div>{isCreating && currentSelectedNode === null ? <InputNoteOrFolder onSubmit={handleCreate} /> : null}</div>
         {treeNode && (
@@ -120,12 +170,7 @@ function LeftSideBar() {
             isCreating={isCreating}
             handleCreate={handleCreate}
             selectedNodeId={currentSelectedNode?.id || null}
-            onSelect={node => {
-              if (node) {
-                setResetSelection(false);
-                setCurrentSelectedNode(node);
-              }
-            }}
+            onSelect={handleSelectNode}
             deselected={resetSelection}
             handleEditNode={handleEditNode}
             handleDeleteNode={handleDeleteNode}

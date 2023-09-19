@@ -29,6 +29,7 @@ function InputNoteOrFolder({ valueProps, onSubmit }: { valueProps?: string; onSu
             {...field}
             placeholder="..."
             autoComplete="off"
+            fullWidth
             InputProps={{
               sx: {
                 height: 32,
@@ -40,7 +41,7 @@ function InputNoteOrFolder({ valueProps, onSubmit }: { valueProps?: string; onSu
             }}
             sx={{
               '& .MuiOutlinedInput-root': {
-                '& > fieldset': { borderColor: 'none' },
+                '& > fieldset': { borderColor: 'gray' },
               },
             }}
             onKeyDown={handleKeyDown}

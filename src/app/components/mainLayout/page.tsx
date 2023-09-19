@@ -2,10 +2,10 @@
 import { Box, styled } from '@mui/material';
 import { useCallback, useEffect, useRef, useState } from 'react';
 import { isEmpty } from 'lodash';
-import { useRecoilState, useRecoilValue, useSetRecoilState } from 'recoil';
+import { useSetRecoilState } from 'recoil';
 import { useGetReposByOwnerQuery } from '@/app/redux-toolkit/features/repoSlice';
 import { currentRepoState, newlyCreatedRepoState, reposByOwnerState } from '@/app/recoil/atomState';
-import { Repository } from '@/app/types/types';
+import { Repository, SuccessfulResponse } from '@/app/types/types';
 import PrimarySearchAppBar from '../header/AppBar';
 import LeftSideBar from '../leftSideBar/page';
 import NoteEditor from '../noteEditor/page';
@@ -26,8 +26,6 @@ const Body = styled('div')({
 
 function MainLayout() {
   const [openRepoModal, setOpenRepoModal] = useState(false);
-
-  const { data, isLoading } = useGetReposByOwnerQuery();
 
   const [disableLeaveModal, setDisableLeaveModal] = useState(false);
 
@@ -64,27 +62,32 @@ function MainLayout() {
 
   const setRepositories = useSetRecoilState(reposByOwnerState);
 
-  const currentRepoName = localStorage.getItem('currentRepoName');
-  const setCurrentRepo = useSetRecoilState(currentRepoState);
+  const { data: reposByOwnerResponse, isLoading, isError } = useGetReposByOwnerQuery();
 
-  const repos = data && data.data;
+  const currentRepoId = localStorage.getItem('currentRepoId');
+  const setCurrentRepo = useSetRecoilState(currentRepoState);
 
   useEffect(() => {
     if (!isLoading) {
-      if (isEmpty(repos)) {
+      const reposData = (reposByOwnerResponse as SuccessfulResponse)?.data;
+      if (isEmpty(reposData)) {
         setOpenRepoModal(true);
         setDisableLeaveModal(true);
+        return;
       }
+      const repos: { [key: number]: Repository } = {};
+      reposData.forEach((repo: Repository) => {
+        repos[repo.id] = repo;
+      });
+
       setRepositories(repos);
 
-      if (isEmpty(currentRepoName)) {
-        localStorage.setItem('currentRepoName', repos[0].name);
-      }
+      const currentRepo = currentRepoId === null ? reposData[0] : repos[parseInt(currentRepoId, 10)];
+      localStorage.setItem('currentRepoId', currentRepo.id);
 
-      const currentRepo = repos.find((repo: Repository) => repo.name === localStorage.getItem('currentRepoName'));
       setCurrentRepo(currentRepo);
     }
-  }, [isLoading, data]);
+  }, [isLoading, reposByOwnerResponse]);
 
   if (isLoading) {
     return <p>Loading repositories...</p>;

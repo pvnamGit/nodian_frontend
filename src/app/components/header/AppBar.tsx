@@ -76,7 +76,7 @@ export default function PrimarySearchAppBar() {
   };
 
   const handleLogout = () => {
-    localStorage.removeItem('token');
+    localStorage.clear();
     toast.success('Logout Successfully', {
       position: toast.POSITION.BOTTOM_RIGHT,
     });
@@ -165,7 +165,7 @@ export default function PrimarySearchAppBar() {
         position="sticky"
       >
         <Toolbar>
-          <Search
+          {/* <Search
             sx={{
               border: '0.5px solid',
               borderColor: 'white',
@@ -177,7 +177,7 @@ export default function PrimarySearchAppBar() {
               <SearchIcon />
             </SearchIconWrapper>
             <StyledInputBase placeholder="Search…" inputProps={{ 'aria-label': 'search' }} />
-          </Search>
+          </Search> */}
           <Box sx={{ flexGrow: 1 }}>
             <Box sx={{ display: 'flex', justifyContent: 'center' }}>
               <NodianLogo />

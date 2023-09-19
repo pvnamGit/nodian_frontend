@@ -4,6 +4,7 @@ import { userSliceApi } from './features/userSlices';
 import { repoSliceApi } from './features/repoSlice';
 import { folderSliceApi } from './features/folderSlice';
 import { pathSliceApi } from './features/pathSlice';
+import { noteSliceApi } from './features/noteSlice';
 
 const rootReducer = combineReducers({
   [authSliceApi.reducerPath]: authSliceApi.reducer,
@@ -11,6 +12,7 @@ const rootReducer = combineReducers({
   [repoSliceApi.reducerPath]: repoSliceApi.reducer,
   [folderSliceApi.reducerPath]: folderSliceApi.reducer,
   [pathSliceApi.reducerPath]: pathSliceApi.reducer,
+  [noteSliceApi.reducerPath]: noteSliceApi.reducer,
 });
 
 const store = configureStore({
@@ -21,7 +23,8 @@ const store = configureStore({
       .concat(userSliceApi.middleware)
       .concat(repoSliceApi.middleware)
       .concat(folderSliceApi.middleware)
-      .concat(pathSliceApi.middleware),
+      .concat(pathSliceApi.middleware)
+      .concat(noteSliceApi.middleware),
 });
 export default store;
 

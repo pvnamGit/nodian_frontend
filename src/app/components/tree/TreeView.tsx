@@ -3,7 +3,7 @@ import { flatMapDeep, flattenDeep, isEmpty } from 'lodash';
 import { TreeNode } from '@/app/types/types';
 import { getFlattenData, getPaths } from '@/app/utils/treeNodeUtils';
 import TreeNodeComponent from './TreeNodeComponent';
-import './Tree.css';
+import './Tree.scss';
 
 function TreeView({
   data,

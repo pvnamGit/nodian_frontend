@@ -1,5 +1,9 @@
-import { compact, isEmpty } from 'lodash';
-import { Folder, TreeNode } from '../types/types';
+import { compact, isEmpty, noop } from 'lodash';
+import { Folder, Note, TreeNode } from '../types/types';
+
+type NoteMerged = Note & {
+  isNote?: boolean;
+};
 
 const buildFolderOption = ({ item, parentId }: { item: Folder; parentId: number | null }): TreeNode => {
   return {
@@ -10,37 +14,53 @@ const buildFolderOption = ({ item, parentId }: { item: Folder; parentId: number 
     isSelected: false,
     isOpen: true,
     isFolder: true,
+    children: [], // Initialize children array
   };
 };
 
-const buildFileOption = ({ item, parentFolder }: { item: any; parentFolder?: any }) => ({
+const buildNoteOption = ({ item }: { item: Note }): TreeNode => ({
   id: `${item.id}n`,
   label: item.name,
-  // relativePath: item.parentId === null ? item.name : parentFolder.relativePath.concat('/').concat(item.name),
   isRoot: item.parentId === null,
   isSelected: false,
   isOpen: false,
   isFolder: false,
 });
 
-const generateFolderMap = (data: any[], parentId: number | null = null) => {
-  const folderNodes: TreeNode[] = [];
+const generateFolderAndNoteMap = (data: Folder[] | NoteMerged[], parentId: number | null = null) => {
+  const folderNodesMap: { [key: string]: TreeNode } = {};
+  const rootFolderNodes: TreeNode[] = [];
+
   data.forEach((item: any) => {
     if (item.parentId === parentId) {
-      const folderNode = buildFolderOption({ item, parentId: null }); // build parent folder
-      const children = generateFolderMap(data, item.id); // recursive to build nested object of children
+      const folderNode = item.isNote ? buildNoteOption({ item }) : buildFolderOption({ item, parentId: null });
 
-      if (children.length > 0) {
-        folderNode.children = children;
+      if (!item.isNote) {
+        const children = generateFolderAndNoteMap(data, item.id);
+
+        if (children.length > 0) {
+          folderNode.children = children;
+        }
       }
 
-      folderNodes.push(folderNode);
+      folderNodesMap[folderNode.id] = folderNode;
+
+      if (parentId === null) {
+        rootFolderNodes.push(folderNode);
+      }
     }
   });
-  return folderNodes;
+
+  return parentId === null ? rootFolderNodes : Object.values(folderNodesMap);
 };
 
-export const buildNode = ({ data }: { data: any }) => {
-  const folderMap = generateFolderMap(data);
-  return folderMap;
+export const buildNode = ({ folders, notes }: { folders: Folder[]; notes: Note[] }) => {
+  const notesMarked = notes.map(note => ({
+    ...note,
+    isNote: true,
+  }));
+  const mergedNoteAndFolder = [...folders, ...notesMarked];
+  const treeNode = generateFolderAndNoteMap(mergedNoteAndFolder);
+
+  return treeNode;
 };

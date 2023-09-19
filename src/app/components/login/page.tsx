@@ -45,14 +45,6 @@ function Login() {
         alignItems: 'center',
       }}
     >
-      <Typography
-        variant="h2"
-        sx={{
-          marginBottom: 4,
-        }}
-      >
-        Nodian
-      </Typography>
       <GoogleLogin onSuccess={credentialResponse => handleLoginByGoogle(credentialResponse)} onError={onFailure} />
     </Box>
   );

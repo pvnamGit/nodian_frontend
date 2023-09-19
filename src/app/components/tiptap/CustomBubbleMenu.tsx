@@ -1,3 +1,5 @@
+'use client';
+
 import { BubbleMenu, Editor } from '@tiptap/react';
 import { Box, Button, MenuItem, Paper, Select, SelectChangeEvent } from '@mui/material';
 import FormatBoldIcon from '@mui/icons-material/FormatBold';

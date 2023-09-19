@@ -1,3 +1,5 @@
+'use client';
+
 import { IconButton, Tab } from '@mui/material';
 import { noop, unset } from 'lodash';
 import CloseIcon from '@mui/icons-material/Close';

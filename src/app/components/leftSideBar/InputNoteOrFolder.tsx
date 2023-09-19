@@ -1,3 +1,5 @@
+'use client';
+
 import { TextField } from '@mui/material';
 import { Controller, useForm } from 'react-hook-form';
 import { KeyboardEvent } from 'react';

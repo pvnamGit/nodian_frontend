@@ -1,3 +1,5 @@
+'use client';
+
 /* eslint-disable no-undef */
 import { Box, Divider, Modal, ModalProps, SxProps, Typography } from '@mui/material';
 import React from 'react';

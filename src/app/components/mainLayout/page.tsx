@@ -1,3 +1,5 @@
+'use client';
+
 /* eslint-disable jsx-a11y/no-static-element-interactions */
 import { Box, styled } from '@mui/material';
 import { useCallback, useEffect, useRef, useState } from 'react';

@@ -1,3 +1,5 @@
+'use client';
+
 import { IconButton, MenuItem, Select, SelectChangeEvent, Tooltip, Typography } from '@mui/material';
 import { useRecoilState, useRecoilValue, useSetRecoilState } from 'recoil';
 import { useEffect, useMemo, useState } from 'react';

@@ -1,3 +1,5 @@
+'use client';
+
 import { useState } from 'react';
 import { flatMapDeep, flattenDeep, isEmpty } from 'lodash';
 import { TreeNode } from '@/app/types/types';

@@ -1,3 +1,5 @@
+'use client';
+
 import { Box, IconButton, Tab, Tabs } from '@mui/material';
 import CloseIcon from '@mui/icons-material/Close';
 import React, { useState } from 'react';

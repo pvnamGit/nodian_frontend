@@ -54,7 +54,7 @@ function RepositorySelection({ handleUpdateSelect }: { handleUpdateSelect: (repo
   const [deleteRepo] = useDeleteRepoMutation();
 
   const handleDeleteRepo = async () => {
-    const response = (await deleteRepo({ id: selectedRepoId })) as SuccessfulResponse;
+    const response = (await deleteRepo({ id: selectedRepoId! })) as SuccessfulResponse;
     if (response.data && response.data.status) {
       toast.success('Delete repo successfully', {
         position: toast.POSITION.BOTTOM_RIGHT,

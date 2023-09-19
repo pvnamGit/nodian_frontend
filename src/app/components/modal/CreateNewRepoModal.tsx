@@ -7,6 +7,7 @@ import { isEmpty } from 'lodash';
 import { useRecoilState, useRecoilValue, useSetRecoilState } from 'recoil';
 import { useCreateNewRepoMutation } from '@/app/redux-toolkit/features/repoSlice';
 import { currentRepoState, newlyCreatedRepoState, reposByOwnerState } from '@/app/recoil/atomState';
+import { SuccessfulResponse } from '@/app/types/types';
 import BaseModal from './BaseModal';
 
 function CreateNewRepoModal({
@@ -40,25 +41,23 @@ function CreateNewRepoModal({
     }
     const response = await createNewRepo(name);
 
-    const { data, error } = response;
+    const responseData = (response as SuccessfulResponse).data;
 
-    if (data && data.status) {
+    if (responseData && responseData.status) {
       toast.success('Create New Repository Success', {
         position: toast.POSITION.BOTTOM_RIGHT,
       });
 
-      const newRepo = data.data;
+      const newRepo = responseData.data;
 
       setCurrentRepo(newRepo);
       localStorage.setItem('currentRepoName', newRepo.name);
-      setReposByOwner([...reposByOwner, newRepo]);
+      if (reposByOwner) {
+        reposByOwner[newRepo.id] = newRepo;
+        setReposByOwner({ ...reposByOwner });
+      }
 
       handleClose();
-    }
-    if (error) {
-      toast.error(error.data.message, {
-        position: toast.POSITION.BOTTOM_RIGHT,
-      });
     }
   };
 

@@ -25,7 +25,7 @@ export const repoSliceApi = createApi({
       }),
       providesTags: ['Repo'],
     }),
-    createNewRepo: builder.mutation<any, any>({
+    createNewRepo: builder.mutation<SuccessfulResponse, any>({
       query: (name: string) => ({
         url: '/repo',
         method: 'POST',
@@ -33,7 +33,7 @@ export const repoSliceApi = createApi({
       }),
       invalidatesTags: ['Repo'],
     }),
-    updateRepo: builder.mutation<any, any>({
+    updateRepo: builder.mutation({
       query: ({ id, newName }: { id: number; newName: string }) => ({
         url: `/repo/${id}`,
         method: 'PUT',
@@ -41,7 +41,7 @@ export const repoSliceApi = createApi({
       }),
       invalidatesTags: ['Repo'],
     }),
-    deleteRepo: builder.mutation<any, any>({
+    deleteRepo: builder.mutation({
       query: ({ id }: { id: number }) => ({
         url: `/repo/${id}`,
         method: 'DELETE',

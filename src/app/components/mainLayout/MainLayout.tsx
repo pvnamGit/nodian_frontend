@@ -1,12 +1,14 @@
 'use client';
 
 /* eslint-disable jsx-a11y/no-static-element-interactions */
-import { Box, styled } from '@mui/material';
+import { Box, Stack, styled } from '@mui/material';
 import { useCallback, useEffect, useRef, useState } from 'react';
 import { isEmpty } from 'lodash';
-import { useSetRecoilState } from 'recoil';
+import { useRecoilValue, useSetRecoilState } from 'recoil';
+import Skeleton from '@mui/material/Skeleton';
+import { redirect, useNavigate } from 'react-router-dom';
 import { useGetReposByOwnerQuery } from '@/app/redux-toolkit/features/repoSlice';
-import { currentRepoState, newlyCreatedRepoState, reposByOwnerState } from '@/app/recoil/atomState';
+import { currentRepoState, currentUserState, newlyCreatedRepoState, reposByOwnerState } from '@/app/recoil/atomState';
 import { Repository, SuccessfulResponse } from '@/app/types/types';
 import PrimarySearchAppBar from '../header/AppBar';
 import LeftSideBar from '../leftSideBar/LeftSideBar';
@@ -27,6 +29,14 @@ const Body = styled('div')({
 });
 
 function MainLayout() {
+  const navigate = useNavigate();
+
+  const currentUser = useRecoilValue(currentUserState);
+
+  if (!currentUser) {
+    navigate('/');
+  }
+
   const [openRepoModal, setOpenRepoModal] = useState(false);
 
   const [disableLeaveModal, setDisableLeaveModal] = useState(false);
@@ -92,7 +102,17 @@ function MainLayout() {
   }, [isLoading, reposByOwnerResponse]);
 
   if (isLoading) {
-    return <p>Loading repositories...</p>;
+    return (
+      <Stack spacing={1}>
+        {/* For variant="text", adjust the height via font-size */}
+        <Skeleton variant="text" sx={{ fontSize: '1rem' }} />
+
+        {/* For other variants, adjust the size with `width` and `height` */}
+        <Skeleton variant="circular" width={40} height={40} />
+        <Skeleton variant="rectangular" width={210} height={60} />
+        <Skeleton variant="rounded" width={210} height={60} />
+      </Stack>
+    );
   }
 
   return (

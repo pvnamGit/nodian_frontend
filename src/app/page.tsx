@@ -19,41 +19,26 @@ import { useGetCurrentUserInfoQuery } from './redux-toolkit/features/userSlices'
 const GOOGLE_CLIENT_ID: string = process.env.NEXT_PUBLIC_GOOGLE_CLIENT_ID as string;
 
 export default function App() {
-  const [isLogin, setIsLogin] = useState(false);
-  // useGetCurrentUserInfoQuery();
-  // const { isLoading, data: userInfo, isError } = useGetCurrentUserInfoQuery();
+  const [render, setRender] = useState(false);
+  useEffect(() => setRender(true), []);
 
-  // useEffect(() => {
-  //   if (!isLoading && userInfo) {
-  //     const { status } = userInfo;
-  //     if (status) {
-  //       redirect('/d');
-  //     }
-  //   }
-  //   setIsLogin(!isEmpty(localStorage.getItem('token')));
-  // }, [userInfo]);
-
-  // if (isError) {
-  //   localStorage.clear();
-  //   redirect('/');
-  // }
-
-  return (
-    <Provider store={store}>
-      <GoogleOAuthProvider clientId={GOOGLE_CLIENT_ID}>
-        <RecoilRoot>
-          <ThemeProvider theme={theme}>
-            <BrowserRouter>
+  if (typeof window === 'undefined') return null;
+  return render ? (
+    <BrowserRouter>
+      <Provider store={store}>
+        <GoogleOAuthProvider clientId={GOOGLE_CLIENT_ID}>
+          <RecoilRoot>
+            <ThemeProvider theme={theme}>
               {/* <div className="h-full">{isLogin ? <MainLayout /> : <Home isLoggedIn={isLogin} />}</div> */}
               <Routes>
-                <Route path="" element={<Home />} />
+                <Route index element={<Home />} />
                 <Route path="/d" element={<MainLayout />} />
               </Routes>
-            </BrowserRouter>
-            <ToastContainer />
-          </ThemeProvider>
-        </RecoilRoot>
-      </GoogleOAuthProvider>
-    </Provider>
-  );
+              <ToastContainer />
+            </ThemeProvider>
+          </RecoilRoot>
+        </GoogleOAuthProvider>
+      </Provider>
+    </BrowserRouter>
+  ) : null;
 }

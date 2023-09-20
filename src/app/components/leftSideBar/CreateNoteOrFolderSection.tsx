@@ -11,12 +11,12 @@ function CreateNoteOrFolderSection({ onCreateFolder, onCreateNote }: { onCreateF
         height: '48px',
       }}
     >
-      <div style={{ margin: 'auto', width: 'fit-content' }}>
+      <div style={{ marginLeft: 'auto', width: 'fit-content' }}>
         <Tooltip title="Create a Note">
-          <Button onClick={onCreateNote} sx={{ marginTop: 2 }} startIcon={<NoteAddIcon sx={{ color: 'white' }} />} />
+          <Button onClick={onCreateNote} sx={{ marginTop: 2 }} startIcon={<NoteAddIcon fontSize="small" sx={{ color: 'white' }} />} />
         </Tooltip>
         <Tooltip title="Create a Folder">
-          <Button onClick={onCreateFolder} sx={{ marginTop: 2 }} startIcon={<CreateNewFolderIcon sx={{ color: 'white' }} />} />
+          <Button onClick={onCreateFolder} sx={{ marginTop: 2 }} startIcon={<CreateNewFolderIcon fontSize="small" sx={{ color: 'white' }} />} />
         </Tooltip>
       </div>
     </Box>

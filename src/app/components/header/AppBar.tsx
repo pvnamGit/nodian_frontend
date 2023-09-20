@@ -19,6 +19,7 @@ import NotificationsIcon from '@mui/icons-material/Notifications';
 import MoreIcon from '@mui/icons-material/MoreVert';
 import { Button } from '@mui/material';
 import { toast } from 'react-toastify';
+import { useNavigate } from 'react-router-dom';
 import NodianLogo from '../logo/NodianLogo';
 
 const Search = styled('div')(({ theme }) => ({
@@ -61,6 +62,7 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
 }));
 
 export default function PrimarySearchAppBar() {
+  const navigate = useNavigate();
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
   const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = React.useState<null | HTMLElement>(null);
 
@@ -80,7 +82,7 @@ export default function PrimarySearchAppBar() {
     toast.success('Logout Successfully', {
       position: toast.POSITION.BOTTOM_RIGHT,
     });
-    setTimeout(() => window.location.reload(), 500);
+    setTimeout(() => navigate('/'), 500);
   };
 
   const handleMenuClose = () => {

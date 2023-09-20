@@ -1,5 +1,10 @@
 import { atom, selector } from 'recoil';
-import { Note, Path, Repository } from '../types/types';
+import { Account, Note, Path, Repository } from '../types/types';
+
+export const currentUserState = atom<Account | null>({
+  key: 'currentUser',
+  default: null,
+});
 
 export const reposByOwnerState = atom<{ [key: number]: Repository } | null>({
   key: 'Repos',

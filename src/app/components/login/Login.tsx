@@ -3,9 +3,11 @@
 import { Box, Button, Typography } from '@mui/material';
 import { GoogleLogin } from '@react-oauth/google';
 import { toast } from 'react-toastify';
+import { useNavigate } from 'react-router-dom';
 import { useLoginByGoogleMutation } from '@/app/redux-toolkit/features/authSlice';
 
 function Login() {
+  const navigate = useNavigate();
   const [loginByGoogle] = useLoginByGoogleMutation();
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
 
@@ -23,7 +25,7 @@ function Login() {
               position: toast.POSITION.BOTTOM_RIGHT,
             });
           }
-          setTimeout(() => window.location.reload(), 500);
+          setTimeout(() => navigate('/d'), 500);
         });
     } catch (err: any) {
       console.log(err.message);

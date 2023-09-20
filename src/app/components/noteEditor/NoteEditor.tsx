@@ -63,10 +63,11 @@ function NoteEditor() {
     <Box
       key={currentNoteSelected?.id}
       sx={{
+        display: 'flex',
+        flexDirection: 'column',
         height: '100%',
-        width: '100%',
+        maxWidth: '100%',
         backgroundColor: '#1e1e1e',
-        position: 'relative',
         overflow: 'auto',
       }}
     >
@@ -111,9 +112,7 @@ function NoteEditor() {
           />
         )}
       </Box>
-
       {currentNoteSelected && <Tiptap contentProps={currentNoteSelected.content} onDestroy={handleLeaveNote} onChange={handleContentChange} />}
-      <Box sx={{ position: 'absolute' }} />
     </Box>
   );
 }

@@ -1,5 +1,5 @@
 .app-sidebar {
-  min-width: 150px;
+  min-width: 200px;
   max-width: 500px;
   display: flex;
   transition: 0.3 ease;

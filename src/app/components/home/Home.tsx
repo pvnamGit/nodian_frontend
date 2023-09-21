@@ -4,7 +4,7 @@ import { Box, Button, Container, Paper, TextField, Typography } from '@mui/mater
 import { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useRecoilState } from 'recoil';
-import { useGetCurrentUserInfoQuery } from '@/app/redux-toolkit/features/userSlices';
+import { useGetCurrentUserInfoQuery, useGetHelloWorldQuery } from '@/app/redux-toolkit/features/userSlices';
 import { currentUserState } from '@/app/recoil/atomState';
 import { SuccessfulResponse } from '@/app/types/types';
 import Login from '../login/Login';
@@ -12,6 +12,7 @@ import Login from '../login/Login';
 function Home() {
   const navigate = useNavigate(); // Initialize useHistory
   const { isLoading, data: userInfo, isError } = useGetCurrentUserInfoQuery();
+  useGetHelloWorldQuery();
   const [currentUser, setCurrentUser] = useRecoilState(currentUserState);
 
   useEffect(() => {

@@ -23,7 +23,13 @@ export const userSliceApi = createApi({
         method: 'GET',
       }),
     }),
+    getHelloWorld: builder.query<SuccessfulResponse, void>({
+      query: () => ({
+        url: '/home',
+        method: 'GET',
+      }),
+    }),
   }),
 });
 
-export const { useGetCurrentUserInfoQuery } = userSliceApi;
+export const { useGetCurrentUserInfoQuery, useGetHelloWorldQuery } = userSliceApi;

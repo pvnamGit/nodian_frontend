@@ -82,7 +82,7 @@ export default function PrimarySearchAppBar() {
     toast.success('Logout Successfully', {
       position: toast.POSITION.BOTTOM_RIGHT,
     });
-    setTimeout(() => navigate('/'), 500);
+    setTimeout(() => window.location.replace('/'), 500);
   };
 
   const handleMenuClose = () => {

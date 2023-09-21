@@ -25,7 +25,7 @@ function Login() {
               position: toast.POSITION.BOTTOM_RIGHT,
             });
           }
-          setTimeout(() => navigate('/d'), 500);
+          setTimeout(() => window.location.reload(), 500);
         });
     } catch (err: any) {
       console.log(err.message);
